@@ -764,13 +764,18 @@
 function downloadPDF() {
   const btn = document.querySelector('.download-btn');
   const langSwitcher = document.querySelector('.lang-switcher');
+
+  // Force all scroll-revealed elements visible
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('revealed'));
+
   btn.style.display = 'none';
   langSwitcher.style.display = 'none';
+
   html2pdf().set({
     margin: 10,
     filename: 'amalia-mihoc-resume.pdf',
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   }).from(document.querySelector('.page')).save().then(() => {
     btn.style.display = '';
