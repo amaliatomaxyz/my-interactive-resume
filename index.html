@@ -540,7 +540,7 @@
     <div class="contact-block">
       <a href="mailto:amaliatomaxyz@gmail.com">amaliatomaxyz@gmail.com</a><br>
       Timișoara, Romania<br>
-      <button class="download-btn" onclick="window.print()"><span data-en>↓ Download PDF</span><span data-fr>↓ Télécharger PDF</span></button>
+      <button class="download-btn" onclick="downloadPDF()"><span data-en>↓ Download PDF</span><span data-fr>↓ Télécharger PDF</span></button>
     </div>
   </header>
 
@@ -758,7 +758,26 @@
   </footer>
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
+// PDF download
+function downloadPDF() {
+  const btn = document.querySelector('.download-btn');
+  const langSwitcher = document.querySelector('.lang-switcher');
+  btn.style.display = 'none';
+  langSwitcher.style.display = 'none';
+  html2pdf().set({
+    margin: 10,
+    filename: 'amalia-mihoc-resume.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(document.querySelector('.page')).save().then(() => {
+    btn.style.display = '';
+    langSwitcher.style.display = '';
+  });
+}
+
 // Language switcher
 function setLang(lang) {
   document.body.classList.toggle('fr', lang === 'fr');
